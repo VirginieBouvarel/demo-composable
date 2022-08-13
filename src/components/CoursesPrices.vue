@@ -11,7 +11,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in items" :key="item.id">
+        <tr v-for="item in currentItems" :key="item.id">
           <td>{{ item.name }}</td>
           <td>{{ item.coach }}</td>
           <td>{{ item.day }}</td>
@@ -28,32 +28,35 @@
 </template>
 
 <script>
+import { ref } from 'vue';
   export default {
     name: 'CoursesPrices',
-    data() {
-      return {
-        items: [
+    setup() {
+      const items = ref([
           { id: 0, name: 'AeroDance', coach: 'Jessica', day: 'Jeudi', price: 42 },
-          { id: 1, name: 'Boxe', coach: 'Gaël', day: 'Lundi', price: 43 },
-          { id: 2, name: 'Gym T.A.F', coach: 'Nathan', day: 'Lundi', price: 42 },
-          { id: 3, name: 'Pilates', coach: 'Eloïse', day: 'Vendredi', price: 46 },
-          { id: 4, name: 'Yoga', coach: 'Niels', day: 'Vendredi', price: 41 },
-          { id: 5, name: 'Zumba', coach: 'Eloïse', day: 'Mercredi', price: 46 },
-        ],
-        sortedItems: [],
-      }
-    },
-    methods: {
-      sortItemsBy(criteria) {
-        console.log(criteria);
-        const sortedItems = this.items.sort((a, b) => {
+          { id: 1, name: 'Gym T.A.F', coach: 'Nathan', day: 'Lundi', price: 42 },
+          { id: 2, name: 'Boxe', coach: 'Gaël', day: 'Lundi', price: 43 },
+          { id: 3, name: 'Zumba', coach: 'Eloïse', day: 'Mercredi', price: 46 },
+          { id: 4, name: 'Pilates', coach: 'Eloïse', day: 'Vendredi', price: 46 },
+          { id: 5, name: 'Yoga', coach: 'Niels', day: 'Vendredi', price: 41 },
+      ]);
+      const currentItems = ref([]);
+
+      function sortItemsBy(criteria) {
+        const sortedItems = items.value.sort((a, b) => {
           if (a[criteria] < b[criteria]) return -1;
           if (a[criteria] > b[criteria]) return 1;
           return 0;
         });
-        console.log(sortedItems);
-        this.sortedCourses = sortedItems;
-      },
+        currentItems.value = sortedItems;
+      }
+
+      sortItemsBy('name');
+
+      return {
+        currentItems,
+        sortItemsBy,
+      }
     },
   }
 </script>
