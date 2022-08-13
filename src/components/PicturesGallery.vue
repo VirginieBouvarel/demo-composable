@@ -1,7 +1,7 @@
 <template>
   <div class="gallery">
     <ul>
-      <li v-for="item in items" :key="item.id">
+      <li v-for="item in currentItems" :key="item.id">
         <img :src="item.source" :alt="`Paysage de ${item.photographer}`">
         <h4>{{ item.photographer }}</h4>
       </li>
@@ -14,42 +14,45 @@
 </template>
 
 <script>
+  import { ref } from 'vue';
   export default {
     name: 'PicturesGallery',
-    data() {
-      return {
-        items: [
-          { id: 100, source: 'https://picsum.photos/id/100/250/150', photographer: 'Tina Rataj' },
-          { id: 1000, source: 'https://picsum.photos/id/1000/250/150', photographer: 'Lukas Budimaier' },
-          { id: 1002, source: 'https://picsum.photos/id/1002/250/150', photographer: 'NASA' },
-          { id: 1011, source: 'https://picsum.photos/id/1011/250/150', photographer: 'Roberto Nickson' },
-          { id: 1015, source: 'https://picsum.photos/id/1015/250/150', photographer: 'Alexey Topolyanskiy' },
-          { id: 1016, source: 'https://picsum.photos/id/1016/250/150', photographer: 'Philippe Wuyts' },
-          { id: 1018, source: 'https://picsum.photos/id/1018/250/150', photographer: 'Andrew Ridley' },
-          { id: 1019, source: 'https://picsum.photos/id/1019/250/150', photographer: 'Patrick Fore' },
-          { id: 1021, source: 'https://picsum.photos/id/1021/250/150', photographer: 'Frances Gunn' },
-          { id: 1022, source: 'https://picsum.photos/id/1022/250/150', photographer: 'Vashishtha Jogi' },
-          { id: 1028, source: 'https://picsum.photos/id/1028/250/150', photographer: 'Dikaseva' },
-          { id: 1032, source: 'https://picsum.photos/id/1032/250/150', photographer: 'NASA' },
-          { id: 1036, source: 'https://picsum.photos/id/1036/250/150', photographer: 'Wolfgang Lutz' },
-          { id: 1041, source: 'https://picsum.photos/id/1041/250/150', photographer: 'Tim Marshall' },
-          { id: 1043, source: 'https://picsum.photos/id/1043/250/150', photographer: 'Christian Joudrey' },
-          { id: 1051, source: 'https://picsum.photos/id/1051/250/150', photographer: 'Ales Krivec' },
-        ],
-        sortedItems: [],
-      }
-    },
-    methods: {
-      sortItemsBy(criteria) {
-        console.log(criteria);
-        const sortedItems = this.items.sort((a, b) => {
+    setup() {
+      const items = ref([
+        { id: 100, source: 'https://picsum.photos/id/100/250/150', photographer: 'Tina Rataj' },
+        { id: 1000, source: 'https://picsum.photos/id/1000/250/150', photographer: 'Lukas Budimaier' },
+        { id: 1002, source: 'https://picsum.photos/id/1002/250/150', photographer: 'NASA' },
+        { id: 1011, source: 'https://picsum.photos/id/1011/250/150', photographer: 'Roberto Nickson' },
+        { id: 1015, source: 'https://picsum.photos/id/1015/250/150', photographer: 'Alexey Topolyanskiy' },
+        { id: 1016, source: 'https://picsum.photos/id/1016/250/150', photographer: 'Philippe Wuyts' },
+        { id: 1018, source: 'https://picsum.photos/id/1018/250/150', photographer: 'Andrew Ridley' },
+        { id: 1019, source: 'https://picsum.photos/id/1019/250/150', photographer: 'Patrick Fore' },
+        { id: 1021, source: 'https://picsum.photos/id/1021/250/150', photographer: 'Frances Gunn' },
+        { id: 1022, source: 'https://picsum.photos/id/1022/250/150', photographer: 'Vashishtha Jogi' },
+        { id: 1028, source: 'https://picsum.photos/id/1028/250/150', photographer: 'Dikaseva' },
+        { id: 1032, source: 'https://picsum.photos/id/1032/250/150', photographer: 'NASA' },
+        { id: 1036, source: 'https://picsum.photos/id/1036/250/150', photographer: 'Wolfgang Lutz' },
+        { id: 1041, source: 'https://picsum.photos/id/1041/250/150', photographer: 'Tim Marshall' },
+        { id: 1043, source: 'https://picsum.photos/id/1043/250/150', photographer: 'Christian Joudrey' },
+        { id: 1051, source: 'https://picsum.photos/id/1051/250/150', photographer: 'Ales Krivec' },
+      ]);
+      const currentItems = ref([]);
+
+      function sortItemsBy(criteria) {
+        const sortedItems = items.value.sort((a, b) => {
           if (a[criteria] < b[criteria]) return -1;
           if (a[criteria] > b[criteria]) return 1;
           return 0;
         });
-        console.log(sortedItems);
-        this.sortedCourses = sortedItems;
-      },
+        currentItems.value = sortedItems;
+      }
+
+      sortItemsBy('id');
+
+      return {
+        currentItems,
+        sortItemsBy,
+      }
     },
   }
 </script>
