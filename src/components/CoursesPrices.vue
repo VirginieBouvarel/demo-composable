@@ -20,9 +20,9 @@
       </tbody>
   </table>
   <div class="actions">
-    <button @click="sortItemsBy('name')">Trier par Cours</button>
-    <button @click="sortItemsBy('coach')">Trier par Coach</button>
-    <button @click="sortItemsBy('price')">Trier par prix</button>
+    <button @click="sortByStrings('name')">Trier par Cours</button>
+    <button @click="sortByStrings('coach')">Trier par Coach</button>
+    <button @click="sortByNumbers('price')">Trier par prix</button>
   </div>
 </div>
 </template>
@@ -42,7 +42,7 @@ import { ref } from 'vue';
       ]);
       const currentItems = ref([]);
 
-      function sortItemsBy(criteria) {
+      function sortByStrings(criteria) {
         const sortedItems = items.value.sort((a, b) => {
           if (a[criteria] < b[criteria]) return -1;
           if (a[criteria] > b[criteria]) return 1;
@@ -50,12 +50,17 @@ import { ref } from 'vue';
         });
         currentItems.value = sortedItems;
       }
+      function sortByNumbers(criteria) {
+        const sortedItems = items.value.sort((a, b) => a[criteria] - b[criteria]);
+        currentItems.value = sortedItems;
+      }
 
-      sortItemsBy('name');
+      sortByStrings('name');
 
       return {
         currentItems,
-        sortItemsBy,
+        sortByStrings,
+        sortByNumbers,
       }
     },
   }
