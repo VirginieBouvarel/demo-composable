@@ -28,18 +28,11 @@
         { id: 1000, source: 'https://picsum.photos/id/1000/250/150', photographer: 'Lukas Budimaier', date: '2019-02-23' },
         { id: 1002, source: 'https://picsum.photos/id/1002/250/150', photographer: 'NASA', date: '2012-03-12' },
         { id: 1011, source: 'https://picsum.photos/id/1011/250/150', photographer: 'Roberto Nickson', date: '2016-05-15' },
-        { id: 1015, source: 'https://picsum.photos/id/1015/250/150', photographer: 'Alexey Topolyanskiy', date: '2017-05-15' },
         { id: 1016, source: 'https://picsum.photos/id/1016/250/150', photographer: 'Philippe Wuyts', date: '2018-08-23' },
         { id: 1018, source: 'https://picsum.photos/id/1018/250/150', photographer: 'Andrew Ridley', date: '2021-10-13' },
         { id: 1019, source: 'https://picsum.photos/id/1019/250/150', photographer: 'Patrick Fore', date: '2021-01-23' },
         { id: 1021, source: 'https://picsum.photos/id/1021/250/150', photographer: 'Frances Gunn', date: '2021-11-07' },
         { id: 1022, source: 'https://picsum.photos/id/1022/250/150', photographer: 'Vashishtha Jogi', date: '2013-01-17' },
-        { id: 1028, source: 'https://picsum.photos/id/1028/250/150', photographer: 'Dikaseva', date: '2015-08-17' },
-        { id: 1032, source: 'https://picsum.photos/id/1032/250/150', photographer: 'NASA', date: '2013-08-15' },
-        { id: 1036, source: 'https://picsum.photos/id/1036/250/150', photographer: 'Wolfgang Lutz', date: '2017-02-28' },
-        { id: 1041, source: 'https://picsum.photos/id/1041/250/150', photographer: 'Tim Marshall', date: '2015-07-26' },
-        { id: 1043, source: 'https://picsum.photos/id/1043/250/150', photographer: 'Christian Joudrey', date: '2020-04-15' },
-        { id: 1051, source: 'https://picsum.photos/id/1051/250/150', photographer: 'Ales Krivec', date: '2021-04-15' },
       ]);
       const currentItems = ref([]);
 
@@ -53,9 +46,9 @@
       function sortById() {
         currentItems.value = items.value.sort((a, b) => a.id - b.id);
       }
-      function sortByDate(criteria) {
+      function sortByDate() {
         currentItems.value = items.value.sort((a, b) => {
-          return new Date(a[criteria]) - new Date(b[criteria]);
+          return new Date(a.date) - new Date(b.date);
         });
       }
 
@@ -76,7 +69,7 @@
   border: solid 1px #c0c0c0;
   border-radius: 3px;
   padding: 10px;
-  max-width: 1070px;
+  max-width: 808px;
 }
 ul {
   list-style-type: none;
@@ -96,8 +89,13 @@ li h4 {
   margin: 5px 0;
   color: grey;
 }
+.actions {
+  display: flex;
+  justify-content: space-between;
+}
 .actions button {
   margin: 5px;
+  padding: 0;
   width: 250px;
   height: 40px;
   border: none;
