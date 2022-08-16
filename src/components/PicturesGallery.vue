@@ -3,16 +3,17 @@
     <ul>
       <li v-for="item in currentItems" :key="item.id">
         <img :src="item.source" :alt="`Paysage de ${item.photographer}`">
-        <div class="infos">
           <h4>{{ item.photographer }}</h4>
+        <div class="infos">
           <span>{{ item.date }}</span>
+          <span>#{{ item.id }}</span>
         </div>
       </li>
     </ul>
     <div class="actions">
-      <button @click="sortByStrings('photographer')">A - Z</button>
-      <button @click="sortByDate('date')">Dates</button>
-      <button @click="sortByNumbers('id')">Initial</button>
+      <button @click="sortById">#ID</button>  
+      <button @click="sortByPhotographer">A - Z</button>
+      <button @click="sortByDate">Dates</button>  
     </div>
   </div>
 </template>
@@ -42,31 +43,28 @@
       ]);
       const currentItems = ref([]);
 
-      function sortByStrings(criteria) {
-        const sortedItems = items.value.sort((a, b) => {
-          if (a[criteria] < b[criteria]) return -1;
-          if (a[criteria] > b[criteria]) return 1;
+      function sortByPhotographer() {
+        currentItems.value = items.value.sort((a, b) => {
+          if (a.photographer < b.photographer) return -1;
+          if (a.photographer > b.photographer) return 1;
           return 0;
         });
-        currentItems.value = sortedItems;
       }
-      function sortByNumbers(criteria) {
-        const sortedItems = items.value.sort((a, b) => a[criteria] - b[criteria]);
-        currentItems.value = sortedItems;
+      function sortById() {
+        currentItems.value = items.value.sort((a, b) => a.id - b.id);
       }
       function sortByDate(criteria) {
-        const sortedItems = items.value.sort((a, b) => {
+        currentItems.value = items.value.sort((a, b) => {
           return new Date(a[criteria]) - new Date(b[criteria]);
         });
-        currentItems.value = sortedItems;
       }
 
-      sortByNumbers('id');
+      sortById();
 
       return { 
         currentItems, 
-        sortByStrings, 
-        sortByNumbers, 
+        sortByPhotographer, 
+        sortById, 
         sortByDate 
       };
     },
@@ -111,10 +109,10 @@ li h4 {
   display:flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 10px 10px;
 }
 .infos span {
   color: grey;
-  padding-right: 10px;
   font-size: 0.8rem;
 }
 </style>
