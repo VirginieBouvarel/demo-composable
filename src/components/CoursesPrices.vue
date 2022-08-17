@@ -12,17 +12,17 @@
       </thead>
       <tbody>
         <tr v-for="item in sortedItems" :key="item.id">
-          <td>{{ item.courseName }}</td>
-          <td>{{ item.coachName }}</td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.coach }}</td>
           <td>{{ item.day }}</td>
           <td>{{ item.price }}€</td>
         </tr>
       </tbody>
   </table>
   <div class="actions">
-    <button @click="sortByName('courseName')">Trier par Cours</button>
-    <button @click="sortByName('coachName')">Trier par Coach</button>
-    <button @click="sortByPrice">Trier par prix</button>
+    <button @click="sortItemsBy('name')">Trier par Cours</button>
+    <button @click="sortItemsBy('coach')">Trier par Coach</button>
+    <button @click="sortItemsBy('price')">Trier par prix</button>
   </div>
 </div>
 </template>
@@ -33,16 +33,16 @@ import { ref } from 'vue';
     name: 'CoursesPrices',
     setup() {
       const items = ref([
-        { id: 1, courseName: 'Gym T.A.F', coachName: 'Nathan', day: 'Lundi', price: 42 },
-          { id: 0, courseName: 'AeroDance', coachName: 'Jessica', day: 'Jeudi', price: 42 },
-          { id: 2, courseName: 'Boxe', coachName: 'Gaël', day: 'Lundi', price: 43 },
-          { id: 3, courseName: 'Zumba', coachName: 'Eloïse', day: 'Mercredi', price: 46 },
-          { id: 4, courseName: 'Pilates', coachName: 'Eloïse', day: 'Vendredi', price: 46 },
-          { id: 5, courseName: 'Yoga', coachName: 'Niels', day: 'Vendredi', price: 41 },
+          { id: 0, name: 'AeroDance', coach: 'Jessica', day: 'Jeudi', price: 42 },
+          { id: 1, name: 'Gym T.A.F', coach: 'Nathan', day: 'Lundi', price: 42 },
+          { id: 2, name: 'Boxe', coach: 'Gaël', day: 'Lundi', price: 43 },
+          { id: 3, name: 'Zumba', coach: 'Eloïse', day: 'Mercredi', price: 46 },
+          { id: 4, name: 'Pilates', coach: 'Eloïse', day: 'Vendredi', price: 46 },
+          { id: 5, name: 'Yoga', coach: 'Niels', day: 'Vendredi', price: 41 },
       ]);
       const sortedItems = ref([]);
 
-      function sortByName(criteria) {
+      function sortItemsBy(criteria) {
         sortedItems.value = items.value.sort((a, b) => {
           if (a[criteria] < b[criteria]) return -1;
           if (a[criteria] > b[criteria]) return 1;
@@ -50,16 +50,11 @@ import { ref } from 'vue';
         });
       }
 
-      function sortByPrice() {
-        sortedItems.value = items.value.sort((a, b) => a.price - b.price);
-      }
-
-      sortByName('courseName');
+      sortItemsBy('name');
 
       return {
         sortedItems,
-        sortByName,
-        sortByPrice,
+        sortItemsBy,
       }
     },
   }
